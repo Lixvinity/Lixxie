@@ -17,8 +17,15 @@
         >
           <li><a href="">Home</a></li>
           <li><a href="">About</a></li>
-          <img src="" alt="" />
         </div>
+        <img
+          id="random-image"
+          src=""
+          alt="Random Image"
+          width="50"
+          height="50"
+          style="margin-top: 1%; float: right; margin-right: 1%"
+        />
       </ul>
     </nav>
 
@@ -33,6 +40,16 @@
         I consider myself to be a privacy-conscious, self-taught Python and
         Unreal Engine 5 developer who aligns with conservative views.
       </p>
+      <p
+        style="
+          color: #e5e5e5;
+          font-weight: 700;
+          margin-bottom: 5px;
+          font-size: larger;
+        "
+      >
+        find me on the internet
+      </p>
       <div>
         <iframe
           id="discordwidget"
@@ -40,6 +57,7 @@
           frameborder="0"
           width="340"
           height="120"
+          style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3)"
         ></iframe>
       </div>
       <div>
@@ -51,5 +69,28 @@
         ></iframe>
       </div>
     </div>
+
+    <script>
+      // List of image URLs
+      const imageUrls = [
+        "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/gifs/sweetPiano.gif",
+        "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/gifs/pepe.png",
+        "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/gifs/nyancat.gif",
+        "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/gifs/kirby.gif",
+        "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/gifs/hello%20kitty.gif",
+      ];
+
+      function pickRandomImage() {
+        // Pick a random index from the array
+        const randomIndex = Math.floor(Math.random() * imageUrls.length);
+        // Get the random image URL
+        const randomImageUrl = imageUrls[randomIndex];
+        // Set the src attribute of the img element to the random image URL
+        document.getElementById("random-image").src = randomImageUrl;
+      }
+
+      // Pick a random image when the page loads
+      window.onload = pickRandomImage;
+    </script>
   </body>
 </html>
