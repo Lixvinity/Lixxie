@@ -31,7 +31,7 @@ p {
   background-color: #1e1e1f;
   padding: 0%;
   margin: 0%;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
  overflow: hidden;
 }
 
@@ -44,7 +44,6 @@ p {
   padding-top: 30px;
   padding-bottom: 30px;
   text-align: center;
-  justify-content: center;
 }
 
 
