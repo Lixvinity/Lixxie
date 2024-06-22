@@ -1,0 +1,58 @@
+body {
+  background-color: #202021;
+  margin: 0px;
+}
+
+.center-horizontally {
+  width: 50%; /* Or any width you prefer */
+  margin: 0 auto;
+  /*background-color: #4a4948;**/
+}
+
+
+p {
+  font-family: system-ui, sans-serif;
+}
+#title {
+  margin-bottom: 0px;
+  font-family: system-ui, sans-serif;
+}
+#header {
+  margin-top: 0px;
+  font-family: system-ui, sans-serif;
+  font-weight: 550;
+}
+#discordwidget{
+  border-radius: 10px;
+}
+
+.navbar ul{
+  list-style-type: none;
+  background-color: #1e1e1f;
+  padding: 0%;
+  margin: 0%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+ overflow: hidden;
+}
+
+.navbar a{
+  color: #e5e5e5;
+  font-family: system-ui, sans-serif;
+  text-decoration: none;
+  display: block;
+  padding: 15px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+  justify-content: center;
+}
+
+
+.navbar li{
+  float: left;
+}
+
+.navbar a:hover{
+  color: #ffa0b1;
+  font-weight: 600;
+}
