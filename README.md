@@ -1,1 +1,3 @@
-this is the source code for my website
+this is the source code for this website
+Lixxie.xyz
+
