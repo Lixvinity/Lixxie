@@ -35,11 +35,7 @@
   <body class="theme-dark astro-RKRDL5K3">
     <div class="root astro-RKRDL5K3">
       <div class="banner astro-RKRDL5K3">
-        <img
-          src="https://pbs.twimg.com/profile_banners/1427142012281761795/1717247166/1080x360"
-          alt=""
-          class="astro-RKRDL5K3"
-        />
+        <img id="random-image" src="" alt="" class="astro-RKRDL5K3" />
         <div
           class="color-banner astro-RKRDL5K3"
           style="background: #f54291"
@@ -69,5 +65,37 @@
         </svg>
       </div>
     </div>
+    <script>
+      // List of image URLs
+      const imageUrls = [
+        "https://c.tenor.com/Q54NQbpN74YAAAAC/tenor.gif",
+        "https://c.tenor.com/5A0iD7tMpcMAAAAC/tenor.gif",
+        "https://c.tenor.com/FaLYO--vAoMAAAAC/tenor.gif",
+        "https://c.tenor.com/pMseJtc9kx0AAAAC/tenor.gif",
+        "https://c.tenor.com/O_XO9jDfmfEAAAAC/tenor.gif",
+        "https://c.tenor.com/G9C6W5bDBOEAAAAC/tenor.gif",
+        "https://c.tenor.com/oxLPnqYyViYAAAAC/tenor.gif",
+        "https://c.tenor.com/lV9OXwnEXzgAAAAC/tenor.gif",
+        "https://c.tenor.com/9fV87rRDzDgAAAAC/tenor.gif",
+        "https://c.tenor.com/7Owgph5BVwQAAAAC/tenor.gif",
+        "https://c.tenor.com/9-s3O0M_absAAAAd/tenor.gif",
+        "https://c.tenor.com/am5XKxzGln0AAAAd/tenor.gif",
+        "https://c.tenor.com/kWcw0vFTX8gAAAAd/tenor.gif",
+        "https://c.tenor.com/d8fg7_H37WsAAAAd/tenor.gif",
+        "https://c.tenor.com/mBywuwFuhvMAAAAd/tenor.gif",
+      ];
+
+      function pickRandomImage() {
+        // Pick a random index from the array
+        const randomIndex = Math.floor(Math.random() * imageUrls.length);
+        // Get the random image URL
+        const randomImageUrl = imageUrls[randomIndex];
+        // Set the src attribute of the img element to the random image URL
+        document.getElementById("random-image").src = randomImageUrl;
+      }
+
+      // Pick a random image when the page loads
+      window.onload = pickRandomImage;
+    </script>
   </body>
 </html>
