@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About me - Lixxie</title>
+    <style>
+      body {
+        font-family: "Courier Prime", monospace;
+        margin: 0;
+        padding: 0;
+        background-color: #1a1a1a;
+        color: #e5e5e5;
+      }
+      .scrollable-container {
+        width: 300px;
+        height: 200px;
+        overflow: auto;
+      }
+
+      .scrollable-container::-webkit-scrollbar {
+        display: none;
+      }
+
+      .scrollable-container {
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+      }
+      .navbar ul {
+        list-style-type: none;
+        background-color: #1e1e1f;
+        padding: 0%;
+        margin: 0%;
+        overflow: hidden;
+      }
+
+      .navbar a {
+        color: #e5e5e5;
+        font-family: "Courier Prime", monospace;
+        text-decoration: none;
+        display: block;
+        padding: 15px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        text-align: center;
+      }
+
+      .navbar li {
+        float: left;
+      }
+
+      .navbar a:hover {
+        color: #ffa0b1;
+        font-weight: 600;
+      }
+
+      #GithubRepo {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+      }
+
+      .repo-container {
+        background-color: #29292b;
+        color: #e5e5e5;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .repo-container h1 {
+        font-size: 1.5rem;
+        margin-top: 0;
+        margin-bottom: 10px;
+      }
+
+      .repo-container p {
+        font-size: 1rem;
+        margin: 5px 0;
+      }
+
+      .repo-container .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .repo-container .user-info {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #e5e5e5;
+      }
+
+      .repo-container .user-info img {
+        border-radius: 50%;
+        margin-right: 10px;
+        width: 30px;
+        height: 30px;
+      }
+
+      .repo-container .language-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 10px;
+        flex-shrink: 0;
+      }
+
+      .repo-container .language-stars {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+      }
+
+      .repo-container .language-stars p {
+        margin: 0;
+        margin-right: 5px;
+        line-height: 1;
+      }
+
+      .repo-container .language-stars img {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+        vertical-align: middle;
+      }
+
+      .repo-container a {
+        text-decoration: none;
+        color: #e5e5e5;
+      }
+
+      .repo-container a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul>
+        <div
+          style="
+            width: fit-content; /* Or any width you prefer */
+            margin: 0 auto;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+          "
+        >
+          <li><a href="index.html">[ Home ]</a></li>
+          <li><a href="Projects.html">[ Projects ]</a></li>
+        </div>
+        <img
+          id="random-image"
+          src=""
+          alt="Random Image"
+          width="50"
+          height="50"
+          style="margin-top: 1%; float: right; margin-right: 1%"
+        />
+      </ul>
+    </nav>
+    <div><h1 style="color: #e5e5e5; text-align: center">Projects</h1></div>
+
+    <div id="GithubRepo">
+      <!-- GitHub repository information will be dynamically added here -->
+    </div>
+
+    <script>
+      // List of image URLs
+
+      const imageUrls = [
+        "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/gifs/sweetPiano.gif",
+        "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/gifs/pepe.png",
+        "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/gifs/nyancat.gif",
+        "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/gifs/kirby.gif",
+        "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/gifs/hello%20kitty.gif",
+        "https://cdn.discordapp.com/emojis/870776810722435143.gif",
+        "https://cdn.discordapp.com/emojis/1243187751562514633.gif",
+        "https://cdn.discordapp.com/emojis/1207725267666341968.gif",
+        "https://cdn.discordapp.com/emojis/979892761954226196.gif",
+        "https://cdn.discordapp.com/emojis/831359940572217345.gif",
+      ];
+
+      function pickRandomImage() {
+        // Pick a random index from the array
+        const randomIndex = Math.floor(Math.random() * imageUrls.length);
+        // Get the random image URL
+        const randomImageUrl = imageUrls[randomIndex];
+        // Set the src attribute of the img element to the random image URL
+        document.getElementById("random-image").src = randomImageUrl;
+      }
+
+      // Pick a random image when the page loads
+      window.onload = pickRandomImage;
+
+      // GitHub username
+      const username = "Lixvinity";
+
+      // GitHub API URL to get user's repositories
+      const apiUrl = `https://api.github.com/users/${username}/repos`;
+
+      // Fetch repositories from GitHub API
+      fetch(apiUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          const repoGrid = document.getElementById("GithubRepo");
+
+          // Sort repositories by number of stars (descending)
+          data.sort((a, b) => b.stargazers_count - a.stargazers_count);
+
+          // Loop through each repository and create a container
+          data.forEach((repo) => {
+            const repoElement = document.createElement("div");
+            repoElement.classList.add("repo-container");
+
+            repoElement.innerHTML = `
+            <div class="header">
+              <a href="${
+                repo.owner.html_url
+              }" target="_blank" class="user-info">
+                <img
+                  src="${repo.owner.avatar_url}"
+                  alt="User Avatar"
+                  class="avatar"
+                />
+                <p>${repo.owner.login}</p>
+              </a>
+              <a href="${repo.html_url}" target="_blank">
+                <img
+                  src="https://github.com/Lixvinity/Lixxie/blob/main/widgets/openInNewTab.png?raw=true"
+                  alt="Open in new tab"
+                  width="24"
+                />
+              </a>
+            </div>
+            <h1>${repo.name}</h1>
+            <p>${repo.description || "No description"}</p>
+            <div class="language-stars">
+              <div class="language-dot" style="background-color: ${getLanguageColor(
+                repo.language
+              )};"></div>
+              <p>${repo.language || "Not specified"}</p>
+              <p>
+                <img
+                  src="https://github.com/Lixvinity/Lixxie/blob/main/widgets/star.png?raw=true"
+                  alt="Star"
+                />
+                ${repo.stargazers_count}
+              </p>
+            </div>
+          `;
+
+            repoGrid.appendChild(repoElement);
+          });
+        })
+        .catch((error) => console.error("Error fetching repositories:", error));
+
+      // Function to get color based on language
+      function getLanguageColor(language) {
+        switch (language) {
+          case "JavaScript":
+            return "#f1e05a";
+          case "HTML":
+            return "#e34c26";
+          case "CSS":
+            return "#563d7c";
+          case "Python":
+            return "#3572A5";
+          case "Java":
+            return "#b07219";
+          case "Ruby":
+            return "#701516";
+          case "PHP":
+            return "#4F5D95";
+          case "C++":
+            return "#f34b7d";
+          case "C#":
+            return "#178600";
+          default:
+            return "#ccc";
+        }
+      }
+    </script>
+  </body>
+</html>

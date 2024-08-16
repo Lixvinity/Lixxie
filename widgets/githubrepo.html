@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        padding: 2rem;
+        gap: 1.5rem;
+        background-color: #29292b;
+        border-radius: 1rem;
+        border: 1px solid #e5e5e5;
+        max-width: 90%;
+        margin: 2rem auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      #name,
+      #RepoTitle,
+      #language,
+      #Stars {
+        color: #e5e5e5;
+        font-family: system-ui, sans-serif;
+        margin: 0;
+      }
+
+      #Description {
+        color: #c5c4c4;
+        font-family: system-ui, sans-serif;
+        margin: 0;
+      }
+
+      .header,
+      .language-stars {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+      }
+
+      .user-info img {
+        border-radius: 50%;
+        margin-right: 0.5rem;
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      .language-stars {
+        justify-content: flex-start;
+        gap: 1rem;
+      }
+
+      .language-stars div {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .language-stars img {
+        width: 1.6rem;
+        height: 1.6rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="user-info">
+          <img
+            src="https://avatars.githubusercontent.com/u/131554210?v=4"
+            alt="User Avatar"
+          />
+          <p id="name">Username</p>
+        </div>
+        <img
+          src="https://github.com/Lixvinity/Lixxie/blob/main/widgets/openInNewTab.png?raw=true"
+          alt="Open in new tab"
+          style="width: 1.5rem; height: 1.5rem"
+        />
+      </div>
+      <h1 id="RepoTitle">Repo Title</h1>
+      <p id="Description">Description</p>
+      <div class="language-stars">
+        <div id="language">
+          <p>language</p>
+        </div>
+        <div>
+          <img
+            src="https://github.com/Lixvinity/Lixxie/blob/main/widgets/star.png?raw=true"
+            alt="Star"
+          />
+          <p id="Stars">9999</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User GitHub Repositories</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .repo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        max-width: 1200px;
+        margin: 20px;
+        padding: 20px;
+      }
+
+      .repo-container {
+        background-color: #29292b;
+        color: #e5e5e5;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .repo-container h1 {
+        font-size: 1.5rem;
+        margin-top: 0;
+        margin-bottom: 10px;
+      }
+
+      .repo-container p {
+        font-size: 1rem;
+        margin: 5px 0;
+      }
+
+      .repo-container .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .repo-container .user-info {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #e5e5e5;
+      }
+
+      .repo-container .user-info img {
+        border-radius: 50%;
+        margin-right: 10px;
+        width: 30px;
+        height: 30px;
+      }
+
+      .repo-container .language-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 10px;
+        flex-shrink: 0;
+      }
+
+      .repo-container .language-stars {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+      }
+
+      .repo-container .language-stars p {
+        margin: 0;
+        margin-right: 5px;
+        line-height: 1;
+      }
+
+      .repo-container .language-stars img {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+        vertical-align: middle;
+      }
+
+      .repo-container a {
+        text-decoration: none;
+        color: #e5e5e5;
+      }
+
+      .repo-container a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="repo-grid" id="repoGrid">
+      <!-- Repositories will be dynamically added here -->
+    </div>
+
+    <script>
+      // GitHub username
+      const username = "Lixvinity";
+
+      // GitHub API URL to get user's repositories
+      const apiUrl = `https://api.github.com/users/${username}/repos`;
+
+      // Fetch repositories from GitHub API
+      fetch(apiUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          const repoGrid = document.getElementById("repoGrid");
+
+          // Sort repositories by number of stars (descending)
+          data.sort((a, b) => b.stargazers_count - a.stargazers_count);
+
+          // Loop through each repository and create a container
+          data.forEach((repo) => {
+            const repoElement = document.createElement("div");
+            repoElement.classList.add("repo-container");
+
+            repoElement.innerHTML = `
+            <div class="header">
+              <a href="${
+                repo.owner.html_url
+              }" target="_blank" class="user-info">
+                <img
+                  src="${repo.owner.avatar_url}"
+                  alt="User Avatar"
+                  class="avatar"
+                />
+                <p>${repo.owner.login}</p>
+              </a>
+              <a href="${repo.html_url}" target="_blank">
+                <img
+                  src="https://github.com/Lixvinity/Lixxie/blob/main/widgets/openInNewTab.png?raw=true"
+                  alt="Open in new tab"
+                  width="24"
+                />
+              </a>
+            </div>
+            <h1>${repo.name}</h1>
+            <p>${repo.description || "No description"}</p>
+            <div class="language-stars">
+              <div class="language-dot" style="background-color: ${getLanguageColor(
+                repo.language
+              )};"></div>
+              <p>${repo.language || "Not specified"}</p>
+              <p>
+                <img
+                  src="https://github.com/Lixvinity/Lixxie/blob/main/widgets/star.png?raw=true"
+                  alt="Star"
+                />
+                ${repo.stargazers_count}
+              </p>
+            </div>
+          `;
+
+            repoGrid.appendChild(repoElement);
+          });
+        })
+        .catch((error) => console.error("Error fetching repositories:", error));
+
+      // Function to get color based on language
+      function getLanguageColor(language) {
+        switch (language) {
+          case "JavaScript":
+            return "#f1e05a";
+          case "HTML":
+            return "#e34c26";
+          case "CSS":
+            return "#563d7c";
+          case "Python":
+            return "#3572A5";
+          case "Java":
+            return "#b07219";
+          case "Ruby":
+            return "#701516";
+          case "PHP":
+            return "#4F5D95";
+          case "C++":
+            return "#f34b7d";
+          case "C#":
+            return "#178600";
+          default:
+            return "#ccc";
+        }
+      }
+    </script>
+  </body>
+</html>

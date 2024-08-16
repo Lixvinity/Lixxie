@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lixxie Socials</title>
+    <style>
+      /* CSS styles for social icons and text */
+      .Socials {
+        font-family: system-ui, sans-serif;
+        color: white;
+        font-weight: 550;
+        margin-top: 0; /* Adjusted to remove default margin */
+        line-height: 25px; /* Adjust line height to vertically center text */
+        display: flex; /* Use flexbox for better alignment */
+        align-items: center; /* Vertically center align items */
+        margin-bottom: 20px; /* Add margin to create space between social items */
+        position: relative; /* For positioning the copied text */
+      }
+      .SocialIcons {
+        width: 25px; /* Specify the width of the social icon */
+        margin-right: 10px; /* Margin to separate icons */
+      }
+      .Usernames {
+        font-family: system-ui, sans-serif;
+        color: white;
+        font-weight: 600;
+        margin-left: auto; /* Push the username to the right */
+        background-color: #29292b; /* Background color (grey in this case) */
+        padding: 1px 10px; /* Adds padding inside the border */
+        border: 2px solid #29292b; /* Border style (2px width, solid grey color) */
+        border-radius: 15px; /* Rounded corners for the border */
+        cursor: pointer; /* Cursor changes to pointer on hover */
+        transition: background-color 0.3s ease, border-color 0.3s ease,
+          color 0.3s ease; /* Smooth transition for background, border, and text color */
+      }
+      .Usernames:hover {
+        background-color: #404040; /* Darker grey background on hover */
+        border-color: #404040; /* Darker grey border on hover */
+        color: #ffa0b1; /* Light pink color on hover */
+      }
+      .copiedText {
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        color: white; /* White color for success */
+        display: none; /* Hidden by default */
+      }
+    </style>
+    <script>
+      function copyToClipboard(text, button) {
+        navigator.clipboard.writeText(text).then(
+          function () {
+            const copiedText = button.previousElementSibling;
+            copiedText.style.display = "block";
+            setTimeout(function () {
+              copiedText.style.display = "none";
+            }, 2000);
+          },
+          function (err) {
+            console.error("Could not copy text: ", err);
+          }
+        );
+      }
+    </script>
+  </head>
+  <body>
+    <!-- Unordered list for social media links -->
+    <ul style="list-style-type: none; padding: 0">
+      <li class="Socials">
+        <img
+          class="SocialIcons"
+          src="/images/Icons/DiscordLogo.png"
+          alt="Dicord Logo"
+        />
+        <span>Discord</span>
+        <span class="copiedText">Username copied to clipboard</span>
+        <button class="Usernames" onclick="copyToClipboard('L1xv', this)">
+          L1xv
+        </button>
+      </li>
+      <li class="Socials">
+        <img
+          class="SocialIcons"
+          src="/images/Icons/GitHubLogo.png"
+          alt="GitHub Logo"
+        />
+        <span>GitHub</span>
+        <span class="copiedText">Username copied to clipboard</span>
+        <button class="Usernames" onclick="copyToClipboard('Lixvinity', this)">
+          Lixvinity
+        </button>
+      </li>
+      <li class="Socials">
+        <img
+          class="SocialIcons"
+          src="/images/Icons/SteamIcon.png"
+          alt="Steam Icon"
+        />
+        <span>Steam</span>
+        <span class="copiedText">Username copied to clipboard</span>
+        <button class="Usernames" onclick="copyToClipboard('Lixvinity', this)">
+          Lixvinity
+        </button>
+      </li>
+      <li class="Socials">
+        <img
+          class="SocialIcons"
+          src="/images/Icons/surfshark.png"
+          alt="surfshark Icon"
+        />
+        <span>surfshark referal</span>
+        <span class="copiedText">referal link copied to clipboard</span>
+        <button
+          class="Usernames"
+          onclick="copyToClipboard('https://surfshark.club/friend/wAqZALVZ', this)"
+        >
+          copy referal link
+        </button>
+      </li>
+
+      <li class="Socials">
+        <img
+          class="SocialIcons"
+          src="/images/Icons/ETHicon.png"
+          alt="Steam Icon"
+        />
+        <span>ETH address</span>
+        <span class="copiedText">ETH address copied to clipboard</span>
+        <button
+          class="Usernames"
+          onclick="copyToClipboard('0xef0CC5893325B89B645FD4012c6fef10D5B8e78a', this)"
+        >
+          copy ETH address
+        </button>
+      </li>
+    </ul>
+  </body>
+</html>
