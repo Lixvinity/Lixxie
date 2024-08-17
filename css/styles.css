@@ -1,6 +1,13 @@
 body {
   background-color: #202021;
+  height: 100%;
   margin: 0px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: #e5e5e5;
+  font-family: "Courier Prime", monospace;
+  box-shadow: 0 0 200px rgba(0, 0, 0, 0.5) inset;
 }
 
 .center-horizontally {
@@ -9,11 +16,7 @@ body {
   /*background-color: #4a4948;**/
 }
 
-p {
-  font-family: "Courier Prime", monospace;
-}
 #title {
-  margin-bottom: 0px;
   font-family: "Share Tech Mono", monospace;
 }
 #header {
@@ -22,12 +25,12 @@ p {
   font-weight: 550;
 }
 #discordwidget {
-  border-radius: 10px;
+  border-radius: 12.5px;
 }
 
 .navbar ul {
   list-style-type: none;
-  background-color: #1e1e1f;
+  background-color: #1c1c1c;
   padding: 0%;
   margin: 0%;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
@@ -36,7 +39,6 @@ p {
 
 .navbar a {
   color: #e5e5e5;
-  font-family: "Courier Prime", monospace;
   text-decoration: none;
   display: block;
   padding: 15px;
@@ -62,6 +64,43 @@ p {
   border-right: 3px solid;
   font-family: "Share Tech Mono", monospace;
   font-size: 2em;
+}
+
+.social_div {
+  display: flex;
+  flex-wrap: nowrap; /* Prevents wrapping of buttons */
+  gap: 10px; /* Optional: Adds space between buttons */
+}
+
+.Button_social_tag {
+  background-color: #2b2b32;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 7px 13px;
+  border-radius: 10px;
+  align-items: center;
+  flex-direction: row;
+  transition: 0.3s;
+}
+
+.text_social_tag {
+  color: #e5e5e5; /* Sets the text color to a light gray */
+  font-size: 16px; /* Sets the font size to 16px */
+
+  margin-left: 5px;
+}
+
+.Button_social_tagimg {
+  display: block; /* Ensures the image doesn't have extra space below it */
+}
+
+.Button_social_tag:hover {
+  background-color: #3b3b45;
+}
+
+.para {
+  line-height: 22px;
 }
 
 @keyframes typing {
