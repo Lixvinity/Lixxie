@@ -39,7 +39,7 @@
           }
 
           // Construct the GitHub Pages URL for the post JSON
-          const postFileUrl = `https://raw.githubusercontent.com/Lixvinity/Lixxie/main/posts/${postId}.json`;
+          const postFileUrl = `https://lixxie.xyz/posts/${postId}.json`;
           console.log("Fetching post from:", postFileUrl); // Debugging URL
 
           const postResponse = await fetch(postFileUrl);
@@ -51,8 +51,7 @@
           const postData = await postResponse.json();
 
           // Construct the GitHub Pages URL for the tags JSON
-          const tagsFileUrl =
-            "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/data/tags.json";
+          const tagsFileUrl = "https://lixxie.xyz/data/tags.json";
           console.log("Fetching tags from:", tagsFileUrl); // Debugging URL
 
           const tagsResponse = await fetch(tagsFileUrl);
