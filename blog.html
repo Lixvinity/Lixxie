@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/blog-select.css" />
+    <title>Blog</title>
+    <style>
+      /* Add your CSS styles here or link to a separate stylesheet */
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul>
+        <div style="width: fit-content; margin: 0 auto">
+          <li><a href="index.html">[ Home ]</a></li>
+          <li><a href="Projects.html">[ Projects ]</a></li>
+          <li><a href="blog.html">[ Blog ]</a></li>
+        </div>
+        <img
+          id="random-image"
+          src=""
+          alt="Random Image"
+          width="50"
+          height="50"
+          style="margin-top: 1%; float: right; margin-right: 1%"
+        />
+      </ul>
+    </nav>
+
+    <div id="posts-container" class="center-horizontally">
+      <!-- Blog posts will be injected here -->
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async function () {
+        const csvFilePath =
+          "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/data/posts.csv";
+        const tagsFilePath =
+          "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/data/tags.json";
+
+        // Function to parse CSV data into an array of objects
+        const parseCSV = (data) => {
+          const lines = data.split("\n");
+          const result = [];
+          const headers = lines[0].split(",");
+
+          for (let i = 1; i < lines.length; i++) {
+            const obj = {};
+            const currentline = lines[i].split(",");
+
+            headers.forEach((header, index) => {
+              obj[header] = currentline[index];
+            });
+
+            result.push(obj);
+          }
+          return result;
+        };
+
+        // Function to fetch CSV file
+        const fetchCSV = async (url) => {
+          try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("Network response was not ok");
+            const text = await response.text();
+            return parseCSV(text);
+          } catch (error) {
+            console.error("Error fetching CSV file:", error);
+            return [];
+          }
+        };
+
+        // Function to fetch JSON file
+        const fetchJsonFile = async (url) => {
+          try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("Network response was not ok");
+            return response.json();
+          } catch (error) {
+            console.error("Error fetching JSON file:", error);
+            return {};
+          }
+        };
+
+        // Function to fetch tag icons data
+        const fetchTagIcons = async () => {
+          return await fetchJsonFile(tagsFilePath);
+        };
+
+        // Function to render posts on the page
+        const renderPosts = async (posts, tagIcons) => {
+          const postsContainer = document.getElementById("posts-container");
+          postsContainer.innerHTML = ""; // Clear previous content if any
+
+          for (const post of posts) {
+            try {
+              const postData = await fetchJsonFile(post.jsonFile);
+              const tags = postData.tags.map((tag) => tag.trim());
+              const tagElements = tags
+                .map((tag) => {
+                  const tagIcon = tagIcons.find(
+                    (icon) => icon.tag_name === tag
+                  );
+                  return tagIcon
+                    ? `
+                    <div class="tag">
+                        <img src="${tagIcon.icon}" class="tagicon" alt="${tag} Icon" />
+                        <span class="tagtext">${tag}</span>
+                    </div>
+                `
+                    : "";
+                })
+                .join("");
+
+              const postElement = document.createElement("a");
+              postElement.href = "#"; // Update with the actual URL if needed
+              postElement.innerHTML = `
+            <div class="blog_box">
+              <div class="Image">
+                <img src="${postData.bannerImage}" alt="${
+                postData.title
+              }" class="icon" />
+              </div>
+              <div class="details">
+                <h2 class="blogTitle">${postData.title}</h2>
+                <p class="Date">Date: ${new Date(
+                  postData.date
+                ).toLocaleDateString()}</p>
+                <div class="tagboxes">${tagElements}</div>
+                <p class="description">${postData.content}</p>
+              </div>
+            </div>
+          `;
+              postsContainer.appendChild(postElement);
+            } catch (error) {
+              console.error("Error fetching post data:", error);
+            }
+          }
+        };
+
+        // Fetch CSV file, then fetch and render posts
+        try {
+          const posts = await fetchCSV(csvFilePath);
+          const tagIcons = await fetchTagIcons();
+          renderPosts(posts, tagIcons);
+        } catch (error) {
+          console.error("Error in fetching or rendering:", error);
+        }
+      });
+    </script>
+  </body>
+</html>
