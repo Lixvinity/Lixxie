@@ -41,13 +41,13 @@
 
         // Function to parse CSV data into an array of objects
         const parseCSV = (data) => {
-          const lines = data.split("\n");
+          const lines = data.split("\n").filter((line) => line.trim()); // Remove empty lines
           const result = [];
-          const headers = lines[0].split(",");
+          const headers = lines[0].split(",").map((header) => header.trim());
 
           for (let i = 1; i < lines.length; i++) {
             const obj = {};
-            const currentline = lines[i].split(",");
+            const currentline = lines[i].split(",").map((cell) => cell.trim());
 
             headers.forEach((header, index) => {
               obj[header] = currentline[index];
@@ -74,6 +74,7 @@
         // Function to fetch JSON file
         const fetchJsonFile = async (url) => {
           try {
+            console.log("Fetching JSON from:", url); // Debug log
             const response = await fetch(url);
             if (!response.ok) throw new Error("Network response was not ok");
             return response.json();
@@ -96,6 +97,10 @@
           for (const post of posts) {
             try {
               const postData = await fetchJsonFile(post.jsonFile);
+              console.log("Post data:", postData); // Debug log
+
+              if (!postData) continue; // Skip if no post data
+
               const tags = postData.tags.map((tag) => tag.trim());
               const tagElements = tags
                 .map((tag) => {
@@ -104,11 +109,11 @@
                   );
                   return tagIcon
                     ? `
-                    <div class="tag">
-                        <img src="${tagIcon.icon}" class="tagicon" alt="${tag} Icon" />
-                        <span class="tagtext">${tag}</span>
-                    </div>
-                `
+                      <div class="tag">
+                          <img src="${tagIcon.icon}" class="tagicon" alt="${tag} Icon" />
+                          <span class="tagtext">${tag}</span>
+                      </div>
+                  `
                     : "";
                 })
                 .join("");
@@ -116,25 +121,25 @@
               const postElement = document.createElement("a");
               postElement.href = "#"; // Update with the actual URL if needed
               postElement.innerHTML = `
-            <div class="blog_box">
-              <div class="Image">
-                <img src="${postData.bannerImage}" alt="${
+              <div class="blog_box">
+                <div class="Image">
+                  <img src="${postData.bannerImage}" alt="${
                 postData.title
               }" class="icon" />
+                </div>
+                <div class="details">
+                  <h2 class="blogTitle">${postData.title}</h2>
+                  <p class="Date">Date: ${new Date(
+                    postData.date
+                  ).toLocaleDateString()}</p>
+                  <div class="tagboxes">${tagElements}</div>
+                  <p class="description">${postData.content}</p>
+                </div>
               </div>
-              <div class="details">
-                <h2 class="blogTitle">${postData.title}</h2>
-                <p class="Date">Date: ${new Date(
-                  postData.date
-                ).toLocaleDateString()}</p>
-                <div class="tagboxes">${tagElements}</div>
-                <p class="description">${postData.content}</p>
-              </div>
-            </div>
-          `;
+            `;
               postsContainer.appendChild(postElement);
             } catch (error) {
-              console.error("Error fetching post data:", error);
+              console.error("Error rendering post:", error);
             }
           }
         };
@@ -143,6 +148,8 @@
         try {
           const posts = await fetchCSV(csvFilePath);
           const tagIcons = await fetchTagIcons();
+          console.log("Posts:", posts); // Debug log
+          console.log("Tag icons:", tagIcons); // Debug log
           renderPosts(posts, tagIcons);
         } catch (error) {
           console.error("Error in fetching or rendering:", error);
