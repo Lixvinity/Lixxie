@@ -1,11 +1,8 @@
 {
   "bannerImage": "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/images/79e38c0c-1f97-40fd-95c6-88487a82befa.webp",
-  "title": "Your Blog Title",
-  "content": "<p>Your blog content goes here. It can include HTML elements like <strong>strong text</strong>, <em>italic text</em>, and so on.</p>",
+  "title": "Setting up my blog!",
+  "content": "<p>I am currently Setting up my blog.</p> <p> The hardest but most rewarding was the html/css, the java script was a nightmare. working with the url's aswell but hopefully this will payoff.</p> <p>later on I want to create a python script to make it easier to write these posts as i am writing this straight into a json in vscode </p>",
   "tags": [
-    "Python",
-    "Web",
-    "Artificial Intelligence",
-    "Programming"
+    "Web"
   ]
 }
