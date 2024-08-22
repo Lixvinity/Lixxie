@@ -1,5 +1,5 @@
 {
-  "bannerImage": "/images/your-banner-image.webp",
+  "bannerImage": "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/images/79e38c0c-1f97-40fd-95c6-88487a82befa.webp",
   "title": "Your Blog Title",
   "content": "<p>Your blog content goes here. It can include HTML elements like <strong>strong text</strong>, <em>italic text</em>, and so on.</p>",
   "tags": [
