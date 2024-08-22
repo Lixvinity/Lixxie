@@ -6,7 +6,70 @@
     <link rel="stylesheet" href="/css/blog-select.css" />
     <title>Blog</title>
     <style>
-      /* Add your CSS styles here or link to a separate stylesheet */
+      /* Add your CSS styles here */
+      .blog_box {
+        background-color: #1c1c1c;
+        border: 1px solid #e5e5e5;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        width: 400px;
+        height: 200px;
+        padding: 15px;
+        margin-bottom: 15px;
+      }
+      .icon {
+        width: 75px;
+        height: 75px;
+        border-radius: 10px;
+        margin-right: 15px;
+      }
+      .details {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+      .Date {
+        color: #e5e5e5;
+      }
+      .tagboxes {
+        display: flex;
+        flex-direction: row;
+        overflow: auto;
+      }
+      .tag {
+        background-color: #2b2b32;
+        display: flex;
+        align-items: center;
+        padding: 5px 11px;
+        border-radius: 10px;
+        margin-right: 5px;
+      }
+      .tagicon {
+        width: 12px;
+        height: 12px;
+      }
+      .tagtext {
+        font-size: 12px;
+        margin-left: 2.5px;
+        color: #e5e5e5;
+      }
+      .description {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 70px;
+        color: #e5e5e5;
+      }
+      .blogTitle {
+        color: #e5e5e5;
+      }
+      .center-horizontally {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+      }
     </style>
   </head>
   <body>
@@ -34,14 +97,11 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", async function () {
-        const csvFilePath =
-          "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/data/posts.csv";
-        const tagsFilePath =
-          "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/data/tags.json";
+        const csvFilePath = "/data/posts.csv"; // Adjust path based on where your CSV is located
+        const tagsFilePath = "/data/tags.json"; // Adjust path based on where your tags JSON is located
 
-        // Function to parse CSV data into an array of objects
         const parseCSV = (data) => {
-          const lines = data.split("\n").filter((line) => line.trim()); // Remove empty lines
+          const lines = data.split("\n").filter((line) => line.trim());
           const result = [];
           const headers = lines[0].split(",").map((header) => header.trim());
 
@@ -58,7 +118,6 @@
           return result;
         };
 
-        // Function to fetch CSV file
         const fetchCSV = async (url) => {
           try {
             const response = await fetch(url);
@@ -71,10 +130,8 @@
           }
         };
 
-        // Function to fetch JSON file
         const fetchJsonFile = async (url) => {
           try {
-            console.log("Fetching JSON from:", url); // Debug log
             const response = await fetch(url);
             if (!response.ok) throw new Error("Network response was not ok");
             return response.json();
@@ -84,23 +141,22 @@
           }
         };
 
-        // Function to fetch tag icons data
         const fetchTagIcons = async () => {
-          return await fetchJsonFile(tagsFilePath);
+          try {
+            return await fetchJsonFile(tagsFilePath);
+          } catch (error) {
+            console.error("Error fetching tag icons:", error);
+            return [];
+          }
         };
 
-        // Function to render posts on the page
         const renderPosts = async (posts, tagIcons) => {
           const postsContainer = document.getElementById("posts-container");
-          postsContainer.innerHTML = ""; // Clear previous content if any
+          postsContainer.innerHTML = "";
 
           for (const post of posts) {
             try {
               const postData = await fetchJsonFile(post.jsonFile);
-              console.log("Post data:", postData); // Debug log
-
-              if (!postData) continue; // Skip if no post data
-
               const tags = postData.tags.map((tag) => tag.trim());
               const tagElements = tags
                 .map((tag) => {
@@ -110,16 +166,16 @@
                   return tagIcon
                     ? `
                       <div class="tag">
-                          <img src="${tagIcon.icon}" class="tagicon" alt="${tag} Icon" />
-                          <span class="tagtext">${tag}</span>
+                        <img src="${tagIcon.icon}" class="tagicon" alt="${tag} Icon" />
+                        <span class="tagtext">${tag}</span>
                       </div>
-                  `
+                    `
                     : "";
                 })
                 .join("");
 
               const postElement = document.createElement("a");
-              postElement.href = "#"; // Update with the actual URL if needed
+              postElement.href = "#"; // Update with actual URL if needed
               postElement.innerHTML = `
               <div class="blog_box">
                 <div class="Image">
@@ -144,13 +200,12 @@
           }
         };
 
-        // Fetch CSV file, then fetch and render posts
         try {
           const posts = await fetchCSV(csvFilePath);
           const tagIcons = await fetchTagIcons();
-          console.log("Posts:", posts); // Debug log
-          console.log("Tag icons:", tagIcons); // Debug log
-          renderPosts(posts, tagIcons);
+          // Slice the posts array to get only the top 10 posts
+          const topPosts = posts.slice(0, 10);
+          renderPosts(topPosts, tagIcons);
         } catch (error) {
           console.error("Error in fetching or rendering:", error);
         }
