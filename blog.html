@@ -3,213 +3,126 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/blog-select.css" />
     <title>Blog</title>
-    <style>
-      /* Add your CSS styles here */
-      .blog_box {
-        background-color: #1c1c1c;
-        border: 1px solid #e5e5e5;
-        border-radius: 15px;
-        display: flex;
-        flex-direction: row;
-        justify-content: left;
-        width: 400px;
-        height: 200px;
-        padding: 15px;
-        margin-bottom: 15px;
-      }
-      .icon {
-        width: 75px;
-        height: 75px;
-        border-radius: 10px;
-        margin-right: 15px;
-      }
-      .details {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-      }
-      .Date {
-        color: #e5e5e5;
-      }
-      .tagboxes {
-        display: flex;
-        flex-direction: row;
-        overflow: auto;
-      }
-      .tag {
-        background-color: #2b2b32;
-        display: flex;
-        align-items: center;
-        padding: 5px 11px;
-        border-radius: 10px;
-        margin-right: 5px;
-      }
-      .tagicon {
-        width: 12px;
-        height: 12px;
-      }
-      .tagtext {
-        font-size: 12px;
-        margin-left: 2.5px;
-        color: #e5e5e5;
-      }
-      .description {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        height: 70px;
-        color: #e5e5e5;
-      }
-      .blogTitle {
-        color: #e5e5e5;
-      }
-      .center-horizontally {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-      }
-    </style>
+    <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap"
+  />
+    <link rel="stylesheet" href="/css/blog-select.css" />
+    <link rel="script" href="/css/Blogselect.js" />
   </head>
   <body>
-    <nav class="navbar">
-      <ul>
-        <div style="width: fit-content; margin: 0 auto">
-          <li><a href="index.html">[ Home ]</a></li>
-          <li><a href="Projects.html">[ Projects ]</a></li>
-          <li><a href="blog.html">[ Blog ]</a></li>
-        </div>
-        <img
-          id="random-image"
-          src=""
-          alt="Random Image"
-          width="50"
-          height="50"
-          style="margin-top: 1%; float: right; margin-right: 1%"
-        />
-      </ul>
-    </nav>
+    <header>
+      <nav class="navbar">
+        <ul>
+          <div
+            style="
+              width: fit-content; /* Or any width you prefer */
+              margin: 0 auto;
+            "
+          >
+            <li><a href="index.html">[ Home ]</a></li>
+            <li><a href="Projects.html">[ Projects ]</a></li>
+            <li><a href="blog.html">[ Blog ]</a></li>
+          </div>
+        </ul>
+      </nav>
+      
+    </header>
+    <main>
+      <div class="center-horizontally">
+        <h1 style="text-align: center;">Blog</h1>
+        <h2 style="text-align: center;">Recent Posts</h2>
+      </div>
 
-    <div id="posts-container" class="center-horizontally">
-      <!-- Blog posts will be injected here -->
-    </div>
+      <div class="center-horizontally">
+        <div id="posts-container">
+        </div>
+      </div>
+
+    </main>
+    <footer></footer>
 
     <script>
       document.addEventListener("DOMContentLoaded", async function () {
-        const csvFilePath = "/data/posts.csv"; // Adjust path based on where your CSV is located
-        const tagsFilePath = "/data/tags.json"; // Adjust path based on where your tags JSON is located
-
-        const parseCSV = (data) => {
-          const lines = data.split("\n").filter((line) => line.trim());
-          const result = [];
-          const headers = lines[0].split(",").map((header) => header.trim());
-
-          for (let i = 1; i < lines.length; i++) {
-            const obj = {};
-            const currentline = lines[i].split(",").map((cell) => cell.trim());
-
-            headers.forEach((header, index) => {
-              obj[header] = currentline[index];
-            });
-
-            result.push(obj);
-          }
-          return result;
-        };
-
-        const fetchCSV = async (url) => {
-          try {
-            const response = await fetch(url);
-            if (!response.ok) throw new Error("Network response was not ok");
-            const text = await response.text();
-            return parseCSV(text);
-          } catch (error) {
-            console.error("Error fetching CSV file:", error);
-            return [];
-          }
-        };
-
-        const fetchJsonFile = async (url) => {
-          try {
-            const response = await fetch(url);
-            if (!response.ok) throw new Error("Network response was not ok");
-            return response.json();
-          } catch (error) {
-            console.error("Error fetching JSON file:", error);
-            return {};
-          }
-        };
-
-        const fetchTagIcons = async () => {
-          try {
-            return await fetchJsonFile(tagsFilePath);
-          } catch (error) {
-            console.error("Error fetching tag icons:", error);
-            return [];
-          }
-        };
-
-        const renderPosts = async (posts, tagIcons) => {
-          const postsContainer = document.getElementById("posts-container");
-          postsContainer.innerHTML = "";
-
-          for (const post of posts) {
-            try {
-              const postData = await fetchJsonFile(post.jsonFile);
-              const tags = postData.tags.map((tag) => tag.trim());
-              const tagElements = tags
-                .map((tag) => {
-                  const tagIcon = tagIcons.find(
-                    (icon) => icon.tag_name === tag
-                  );
-                  return tagIcon
-                    ? `
-                      <div class="tag">
-                        <img src="${tagIcon.icon}" class="tagicon" alt="${tag} Icon" />
-                        <span class="tagtext">${tag}</span>
-                      </div>
-                    `
-                    : "";
-                })
-                .join("");
-
-              const postElement = document.createElement("a");
-              postElement.href = "#"; // Update with actual URL if needed
-              postElement.innerHTML = `
-              <div class="blog_box">
-                <div class="Image">
-                  <img src="${postData.bannerImage}" alt="${
-                postData.title
-              }" class="icon" />
-                </div>
-                <div class="details">
-                  <h2 class="blogTitle">${postData.title}</h2>
-                  <p class="Date">Date: ${new Date(
-                    postData.date
-                  ).toLocaleDateString()}</p>
-                  <div class="tagboxes">${tagElements}</div>
-                  <p class="description">${postData.content}</p>
-                </div>
-              </div>
-            `;
-              postsContainer.appendChild(postElement);
-            } catch (error) {
-              console.error("Error rendering post:", error);
-            }
-          }
-        };
-
+        const postsContainer = document.getElementById("posts-container");
+        const baseDomain = "https://lixxie.xyz"; // Update to your domain
+    
         try {
-          const posts = await fetchCSV(csvFilePath);
-          const tagIcons = await fetchTagIcons();
-          // Slice the posts array to get only the top 10 posts
-          const topPosts = posts.slice(0, 10);
-          renderPosts(topPosts, tagIcons);
+          // Fetch the post IDs
+          const postIdsResponse = await fetch(`${baseDomain}/data/posts.json`);
+          const postIds = await postIdsResponse.json();
+    
+          console.log("Fetched post IDs:", postIds); // Debugging: Output post IDs
+    
+          // Fetch posts data
+          const fetchPromises = postIds.slice(0, 10).map(postId =>
+            fetch(`${baseDomain}/posts/${postId}.json`).then(response => response.json())
+          );
+          const posts = await Promise.all(fetchPromises);
+    
+          // Fetch tags data
+          const tagsResponse = await fetch(`${baseDomain}/data/tags.json`);
+          const tagsData = await tagsResponse.json();
+    
+          // Generate HTML for each post
+          posts.forEach((post, index) => {
+            const postId = postIds[index]; // Get the ID for this post
+            const postUrl = `${baseDomain}/blog-post?post=${encodeURIComponent(postId)}`;
+    
+            console.log(`Generated URL for post ID '${postId}': ${postUrl}`); // Debugging: Output URL
+    
+            const postTags = post.tags || [];
+            const tagElements = postTags.map(tag => {
+              const tagInfo = tagsData.find(t => t.tag_name === tag);
+              if (tagInfo) {
+                return `
+                  <div class="tag">
+                    <img class="tagicon" src="${baseDomain}${tagInfo.icon}" />
+                    <span class="tagtext">${tag}</span>
+                  </div>`;
+              }
+              return ''; // Return an empty string if tagInfo is not found
+            }).join('');
+    
+            // Merge all <p> tags into one
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(post.content || '', 'text/html');
+            const mergedContent = Array.from(doc.querySelectorAll('p'))
+                                      .map(p => p.innerHTML)
+                                      .join(' ');
+    
+            // Create the post element
+            const postElement = document.createElement("div");
+            postElement.innerHTML = `
+              <a href="${postUrl}">
+                <div class="blog_box">
+                  <div class="Image">
+                    <img class="icon" src="${post.icon || ''}" alt="${post.title || 'No Title'}" />
+                  </div>
+                  <div class="details">
+                    <h1 class="blogTitle">${post.title || 'No Title'}</h1>
+                    <div class="tagboxes">
+                      ${tagElements}
+                    </div>
+                    <p class="description">
+                      ${mergedContent}
+                    </p>
+                  </div>
+                </div>
+              </a>`;
+            
+            postsContainer.appendChild(postElement);
+          });
+    
         } catch (error) {
-          console.error("Error in fetching or rendering:", error);
+          console.error('Error loading posts:', error);
         }
       });
     </script>
+    
+    
+</body>
+</html>
   </body>
 </html>
