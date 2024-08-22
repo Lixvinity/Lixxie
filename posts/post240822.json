@@ -1,6 +1,8 @@
 {
   "bannerImage": "https://lixxie.xyz/images/79e38c0c-1f97-40fd-95c6-88487a82befa.webp",
+  "icon": "https://cdn.discordapp.com/attachments/1132802528308887593/1276304093530427422/Placeholder.png?ex=66c90a50&is=66c7b8d0&hm=a22199999c08b5ed85404d797b4375f180c9b4c483644fec581c745757c318a2&",
   "title": "Setting up my blog!",
+  "date": "08-22-2024",
   "content": "<p>I am currently Setting up my blog.</p> <p> The hardest but most rewarding was the html/css, the java script was a nightmare. working with the url's aswell but hopefully this will payoff.</p> <p>later on I want to create a python script to make it easier to write these posts as i am writing this straight into a json in vscode </p>",
   "tags": [
     "Web"
