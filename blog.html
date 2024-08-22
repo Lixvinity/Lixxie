@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .post {
+        margin: 20px;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+      .tag {
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+      }
+      .tag img {
+        width: 24px;
+        height: 24px;
+        vertical-align: middle;
+        margin-right: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content" class="post"></div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const postId = urlParams.get("post");
+
+        if (postId) {
+          fetch(`posts/${postId}.json`)
+            .then((response) => {
+              if (!response.ok) throw new Error("Post not found");
+              return response.json();
+            })
+            .then((post) => {
+              document.getElementById("content").innerHTML = `
+              <h1>${post.title}</h1>
+              ${post.content}
+              <div class="tags" id="tags"></div>
+            `;
+              loadTags(post.tags); // Assuming `post.tags` is an array of tag names
+            })
+            .catch((error) => {
+              document.getElementById("content").innerHTML =
+                "<p>Post not found.</p>";
+              console.error("Error loading post:", error);
+            });
+        } else {
+          document.getElementById("content").innerHTML =
+            "<p>No post specified.</p>";
+        }
+      });
+
+      function loadTags(tags) {
+        fetch("data/tags.json")
+          .then((response) => response.json())
+          .then((tagData) => {
+            const tagMap = tagData.reduce((map, tag) => {
+              map[tag.tag_name.toLowerCase()] = tag.icon;
+              return map;
+            }, {});
+
+            const tagsContainer = document.getElementById("tags");
+            tags.forEach((tag) => {
+              const tagElement = document.createElement("div");
+              tagElement.classList.add("tag");
+              const icon =
+                tagMap[tag.toLowerCase()] || "/images/default-icon.svg"; // Fallback icon
+              tagElement.innerHTML = `
+              <img src="${icon}" alt="${tag}">
+              ${tag}
+            `;
+              tagsContainer.appendChild(tagElement);
+            });
+          })
+          .catch((error) => console.error("Error loading tags:", error));
+      }
+    </script>
+  </body>
+</html>
