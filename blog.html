@@ -4,89 +4,89 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blog</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-      }
-      .post {
-        margin: 20px;
-      }
-      .tags {
-        display: flex;
-        flex-wrap: wrap;
-        margin-top: 20px;
-      }
-      .tag {
-        margin-right: 10px;
-        display: flex;
-        align-items: center;
-      }
-      .tag img {
-        width: 24px;
-        height: 24px;
-        vertical-align: middle;
-        margin-right: 5px;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/blog-styles.css" />
   </head>
   <body>
-    <div id="content" class="post"></div>
+    <div id="Page">
+      <header>
+        <nav class="navbar">
+          <ul>
+            <li><a href="index.html">[ Home ]</a></li>
+            <li><a href="Projects.html">[ Projects ]</a></li>
+            <li><a href="blog.html">[ Blog ]</a></li>
+          </ul>
+        </nav>
+        <div class="banner">
+          <img id="bannerImage" class="bannerimage" alt="Banner" />
+        </div>
+      </header>
+      <main class="center">
+        <h1 id="title" class="title"></h1>
+        <div id="tags"></div>
+        <div id="content"></div>
+      </main>
+    </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const postId = urlParams.get("post");
+      async function loadContent() {
+        try {
+          // Get query parameters
+          const urlParams = new URLSearchParams(window.location.search);
+          const postId = urlParams.get("post"); // Assume post ID is provided as a query parameter
 
-        if (postId) {
-          fetch(`posts/${postId}.json`)
-            .then((response) => {
-              if (!response.ok) throw new Error("Post not found");
-              return response.json();
-            })
-            .then((post) => {
-              document.getElementById("content").innerHTML = `
-              <h1>${post.title}</h1>
-              ${post.content}
-              <div class="tags" id="tags"></div>
-            `;
-              loadTags(post.tags); // Assuming `post.tags` is an array of tag names
-            })
-            .catch((error) => {
-              document.getElementById("content").innerHTML =
-                "<p>Post not found.</p>";
-              console.error("Error loading post:", error);
+          if (!postId) {
+            throw new Error("No post ID provided in query parameters.");
+          }
+
+          // Construct the GitHub raw URL for the post JSON
+          const postFileUrl = `https://raw.githubusercontent.com/Lixvinity/Lixxie/main/posts/${postId}.json`;
+          const postResponse = await fetch(postFileUrl);
+          if (!postResponse.ok) {
+            throw new Error(`Post file ${postFileUrl} not found.`);
+          }
+          const postData = await postResponse.json();
+
+          // Construct the GitHub raw URL for the tags JSON
+          const tagsFileUrl =
+            "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/posts/tags.json";
+          const tagsResponse = await fetch(tagsFileUrl);
+          if (!tagsResponse.ok) {
+            throw new Error("Tags file not found.");
+          }
+          const tagsData = await tagsResponse.json();
+
+          // Convert tags data to a map for quick lookup
+          const tagsMap = new Map(
+            tagsData.map((tag) => [tag.tag_name, tag.icon])
+          );
+
+          // Update HTML with data from the post JSON
+          document.getElementById("bannerImage").src =
+            postData.bannerImage || "";
+          document.getElementById("title").textContent = postData.title || "";
+          document.getElementById("content").innerHTML = postData.content || "";
+
+          // Update tags section
+          const tagsContainer = document.getElementById("tags");
+          tagsContainer.innerHTML = "";
+          if (postData.tags) {
+            postData.tags.forEach((tagName) => {
+              const icon = tagsMap.get(tagName);
+              if (icon) {
+                const tagDiv = document.createElement("div");
+                tagDiv.classList.add("tag");
+                tagDiv.innerHTML = `<img src="${icon}" class="tag-icon" alt="${tagName} Icon"> <span class="Tag_Text">${tagName}</span>`;
+                tagsContainer.appendChild(tagDiv);
+              }
             });
-        } else {
-          document.getElementById("content").innerHTML =
-            "<p>No post specified.</p>";
+          }
+        } catch (error) {
+          console.error("Error loading content:", error);
         }
-      });
-
-      function loadTags(tags) {
-        fetch("data/tags.json")
-          .then((response) => response.json())
-          .then((tagData) => {
-            const tagMap = tagData.reduce((map, tag) => {
-              map[tag.tag_name.toLowerCase()] = tag.icon;
-              return map;
-            }, {});
-
-            const tagsContainer = document.getElementById("tags");
-            tags.forEach((tag) => {
-              const tagElement = document.createElement("div");
-              tagElement.classList.add("tag");
-              const icon =
-                tagMap[tag.toLowerCase()] || "/images/default-icon.svg"; // Fallback icon
-              tagElement.innerHTML = `
-              <img src="${icon}" alt="${tag}">
-              ${tag}
-            `;
-              tagsContainer.appendChild(tagElement);
-            });
-          })
-          .catch((error) => console.error("Error loading tags:", error));
       }
+
+      // Load content when the page is loaded
+      window.onload = loadContent;
     </script>
   </body>
 </html>
