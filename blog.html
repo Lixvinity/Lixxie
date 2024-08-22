@@ -1,92 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog</title>
-    <link rel="stylesheet" href="/css/blog-styles.css" />
-  </head>
-  <body>
-    <div id="Page">
-      <header>
-        <nav class="navbar">
-          <ul>
-            <li><a href="index.html">[ Home ]</a></li>
-            <li><a href="Projects.html">[ Projects ]</a></li>
-            <li><a href="blog.html">[ Blog ]</a></li>
-          </ul>
-        </nav>
-        <div class="banner">
-          <img id="bannerImage" class="bannerimage" alt="Banner" />
-        </div>
-      </header>
-      <main class="center">
-        <h1 id="title" class="title"></h1>
-        <div id="tags"></div>
-        <div id="content"></div>
-      </main>
-    </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog</title>
+  <link rel="stylesheet" href="/css/blog-styles.css" />
+</head>
+<body>
+  <div id="Page">
+    <header>
+      <nav class="navbar">
+        <ul>
+          <li><a href="index.html">[ Home ]</a></li>
+          <li><a href="Projects.html">[ Projects ]</a></li>
+          <li><a href="blog.html">[ Blog ]</a></li>
+        </ul>
+      </nav>
+      <div class="banner">
+        <img id="bannerImage" class="bannerimage" alt="Banner" />
+      </div>
+    </header>
+    <main class="center">
+      <h1 id="title" class="title"></h1>
+      <div id="tags"></div>
+      <div id="content"></div>
+    </main>
+  </div>
 
-    <script>
-      async function loadContent() {
-        try {
-          // Get query parameters
-          const urlParams = new URLSearchParams(window.location.search);
-          const postId = urlParams.get("post"); // Assume post ID is provided as a query parameter
+  <script>
+    async function loadContent() {
+      try {
+        // Get query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('post'); // Assume post ID is provided as a query parameter
 
-          if (!postId) {
-            throw new Error("No post ID provided in query parameters.");
-          }
-
-          // Construct the GitHub raw URL for the post JSON
-          const postFileUrl = `https://raw.githubusercontent.com/Lixvinity/Lixxie/main/posts/${postId}.json`;
-          const postResponse = await fetch(postFileUrl);
-          if (!postResponse.ok) {
-            throw new Error(`Post file ${postFileUrl} not found.`);
-          }
-          const postData = await postResponse.json();
-
-          // Construct the GitHub raw URL for the tags JSON
-          const tagsFileUrl =
-            "https://raw.githubusercontent.com/Lixvinity/Lixxie/main/posts/tags.json";
-          const tagsResponse = await fetch(tagsFileUrl);
-          if (!tagsResponse.ok) {
-            throw new Error("Tags file not found.");
-          }
-          const tagsData = await tagsResponse.json();
-
-          // Convert tags data to a map for quick lookup
-          const tagsMap = new Map(
-            tagsData.map((tag) => [tag.tag_name, tag.icon])
-          );
-
-          // Update HTML with data from the post JSON
-          document.getElementById("bannerImage").src =
-            postData.bannerImage || "";
-          document.getElementById("title").textContent = postData.title || "";
-          document.getElementById("content").innerHTML = postData.content || "";
-
-          // Update tags section
-          const tagsContainer = document.getElementById("tags");
-          tagsContainer.innerHTML = "";
-          if (postData.tags) {
-            postData.tags.forEach((tagName) => {
-              const icon = tagsMap.get(tagName);
-              if (icon) {
-                const tagDiv = document.createElement("div");
-                tagDiv.classList.add("tag");
-                tagDiv.innerHTML = `<img src="${icon}" class="tag-icon" alt="${tagName} Icon"> <span class="Tag_Text">${tagName}</span>`;
-                tagsContainer.appendChild(tagDiv);
-              }
-            });
-          }
-        } catch (error) {
-          console.error("Error loading content:", error);
+        if (!postId) {
+          throw new Error('No post ID provided in query parameters.');
         }
-      }
 
-      // Load content when the page is loaded
-      window.onload = loadContent;
-    </script>
-  </body>
+        // Construct the GitHub Pages URL for the post JSON
+        const postFileUrl = `https://username.github.io/repository/${postId}.json`;
+        console.log('Fetching post from:', postFileUrl); // Debugging URL
+
+        const postResponse = await fetch(postFileUrl);
+        if (!postResponse.ok) {
+          throw new Error(`Post file ${postFileUrl} not found. Status: ${postResponse.status}`);
+        }
+        const postData = await postResponse.json();
+
+        // Construct the GitHub Pages URL for the tags JSON
+        const tagsFileUrl = 'https://username.github.io/repository/posts/tags.json';
+        console.log('Fetching tags from:', tagsFileUrl); // Debugging URL
+
+        const tagsResponse = await fetch(tagsFileUrl);
+        if (!tagsResponse.ok) {
+          throw new Error(`Tags file ${tagsFileUrl} not found. Status: ${tagsResponse.status}`);
+        }
+        const tagsData = await tagsResponse.json();
+
+        // Convert tags data to a map for quick lookup
+        const tagsMap = new Map(tagsData.map(tag => [tag.tag_name, tag.icon]));
+
+        // Update HTML with data from the post JSON
+        document.getElementById('bannerImage').src = postData.bannerImage || '';
+        document.getElementById('title').textContent = postData.title || '';
+        document.getElementById('content').innerHTML = postData.content || '';
+
+        // Update tags section
+        const tagsContainer = document.getElementById('tags');
+        tagsContainer.innerHTML = '';
+        if (postData.tags) {
+          postData.tags.forEach(tagName => {
+            const icon = tagsMap.get(tagName);
+            if (icon) {
+              const tagDiv = document.createElement('div');
+              tagDiv.classList.add('tag');
+              tagDiv.innerHTML = `<img src="${icon}" class="tag-icon" alt="${tagName} Icon"> <span class="Tag_Text">${tagName}</span>`;
+              tagsContainer.appendChild(tagDiv);
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error loading content:', error);
+      }
+    }
+
+    // Load content when the page is loaded
+    window.onload = loadContent;
+  </script>
+</body>
 </html>
