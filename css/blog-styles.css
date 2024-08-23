@@ -1,13 +1,14 @@
 body {
-  background-color: #202021;
-  height: 100%;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  color: #e5e5e5;
-  font-family: "Courier Prime", monospace;
-  box-shadow: 0 0 2vh rgba(0, 0, 0, 0.5) inset;
+	background-color: #202021;
+	height: 100%;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	color: #e5e5e5;
+	font-family: "Courier Prime", monospace;
+	box-shadow: 0 0 2vh rgba(0, 0, 0, 0.5) inset;
+	line-height: 20px;
 }
 
 #Page {
@@ -73,17 +74,19 @@ body {
 }
 
 .title {
-  margin: 0;
-  font-size: 5vmin;
-  text-shadow: -2px 2px 5px black;
+	margin: 0;
+	font-size: 5vmin;
+	text-shadow: -2px 2px 5px black;
+	line-height: 45px;
 }
 
 #tags {
-  margin-top: 1vh;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: flex-start;
+	margin-top: 1vh;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	justify-content: flex-start;
+	line-height: normal;
 }
 
 .tag {
