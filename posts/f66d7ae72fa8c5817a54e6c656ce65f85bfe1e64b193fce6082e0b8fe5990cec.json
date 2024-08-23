@@ -1,6 +1,6 @@
 {
     "bannerImage": "https://images.unsplash.com/photo-1607706189992-eae578626c86?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Markdown-mark.svg/2560px-Markdown-mark.svg.png",
+    "icon": "/images/Placeholder.png",
     "title": "Markdown Ready",
     "date": "08-23-2024",
     "content": "<h1>Python Markdown Library</h1>\n<p>As I was finalizing the pipeline for my blog, the process of creating posts was initially a lower priority. However, now that the blog is complete, I needed a way to format my posts\u2014making it easier to space things out, <strong>emphasize</strong> important points, or ~~cross something out~~. I'm happy to report that the process of creating posts and developing tools to enhance the user experience for readers is now complete.</p>\n<p>If you're a Python programmer and want to use the Markdown library, you can get started with the following commands:</p>\n<p><code>bash\npip install markdown</code></p>\n<p>And then, in your Python script:</p>\n<p><code>python\nimport markdown</code></p>\n<p>banner from <a href=\"https://unsplash.com/photos/black-flat-screen-computer-monitor-oXlXu2qukGE\">unsplash.com</a>\nicon from <a href=\"https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Markdown-mark.svg/2560px-Markdown-mark.svg.png\">Wikipedia.org</a></p>",
