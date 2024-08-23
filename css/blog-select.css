@@ -174,12 +174,13 @@ a {
 }
 
 p {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  height: 70px;
-  color: #e5e5e5;
-  margin: 0; /* Remove margin if unnecessary */
-  flex-grow: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 70px;
+	color: #e5e5e5;
+	margin: 0;
+	flex-grow: 1;
+	width: 300px;
 }
 
 .Image {
