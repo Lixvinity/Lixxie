@@ -115,10 +115,11 @@ a {
   height: 200px;
   padding: 15px;
   transition: 0.3s;
+  margin-bottom: 20px;
 }
 
 .blog_box:hover {
-  background-color: #1c1c28;
+  background-color: #282834;
   box-shadow: 10px 10px 5px violet;
   width: 415px;
   height: 205px;
