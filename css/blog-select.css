@@ -119,11 +119,11 @@ a {
 }
 
 .blog_box:hover {
-  background-color: #282834;
-  box-shadow: 10px 10px 5px violet;
-  width: 415px;
-  height: 205px;
-  padding: 20px;
+	background-color: #17171f;
+	box-shadow: 10px 10px 5px violet;
+	width: 415px;
+	height: 205px;
+	padding: 20px;
 }
 
 .icon {
