@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blog</title>
     <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap"
-  />
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap"
+    />
     <link rel="stylesheet" href="/css/blog-select.css" />
     <link rel="script" href="/css/Blogselect.js" />
   </head>
@@ -27,19 +27,16 @@
           </div>
         </ul>
       </nav>
-      
     </header>
     <main>
       <div class="center-horizontally">
-        <h1 style="text-align: center;">Blog</h1>
-        <h2 style="text-align: center;">Recent Posts</h2>
+        <h1 style="text-align: center">Blog</h1>
+        <h2 style="text-align: center">Recent Posts</h2>
       </div>
 
       <div class="center-horizontally">
-        <div id="posts-container">
-        </div>
+        <div id="posts-container"></div>
       </div>
-
     </main>
     <footer></footer>
 
@@ -47,82 +44,88 @@
       document.addEventListener("DOMContentLoaded", async function () {
         const postsContainer = document.getElementById("posts-container");
         const baseDomain = "https://lixxie.xyz"; // Update to your domain
-    
+
         try {
           // Fetch the post IDs
           const postIdsResponse = await fetch(`${baseDomain}/data/posts.json`);
           const postIds = await postIdsResponse.json();
-    
+
           console.log("Fetched post IDs:", postIds); // Debugging: Output post IDs
-    
+
           // Fetch posts data
-          const fetchPromises = postIds.slice(0, 10).map(postId =>
-            fetch(`${baseDomain}/posts/${postId}.json`).then(response => response.json())
-          );
+          const fetchPromises = postIds
+            .slice(0, 10)
+            .map((postId) =>
+              fetch(`${baseDomain}/posts/${postId}.json`).then((response) =>
+                response.json()
+              )
+            );
           const posts = await Promise.all(fetchPromises);
-    
+
           // Fetch tags data
           const tagsResponse = await fetch(`${baseDomain}/data/tags.json`);
           const tagsData = await tagsResponse.json();
-    
+
           // Generate HTML for each post
           posts.forEach((post, index) => {
             const postId = postIds[index]; // Get the ID for this post
-            const postUrl = `${baseDomain}/blog-post?post=${encodeURIComponent(postId)}`;
-    
+            const postUrl = `${baseDomain}/blog-post?post=${encodeURIComponent(
+              postId
+            )}`;
+
             console.log(`Generated URL for post ID '${postId}': ${postUrl}`); // Debugging: Output URL
-    
+
             const postTags = post.tags || [];
-            const tagElements = postTags.map(tag => {
-              const tagInfo = tagsData.find(t => t.tag_name === tag);
-              if (tagInfo) {
-                return `
+            const tagElements = postTags
+              .map((tag) => {
+                const tagInfo = tagsData.find((t) => t.tag_name === tag);
+                if (tagInfo) {
+                  return `
                   <div class="tag">
                     <img class="tagicon" src="${baseDomain}${tagInfo.icon}" />
                     <span class="tagtext">${tag}</span>
                   </div>`;
-              }
-              return ''; // Return an empty string if tagInfo is not found
-            }).join('');
-    
-            // Merge all <p> tags into one
+                }
+                return ""; // Return an empty string if tagInfo is not found
+              })
+              .join("");
+
+            // Filter and merge only <p> tags
             const parser = new DOMParser();
-            const doc = parser.parseFromString(post.content || '', 'text/html');
-            const mergedContent = Array.from(doc.querySelectorAll('p'))
-                                      .map(p => p.innerHTML)
-                                      .join(' ');
-    
+            const doc = parser.parseFromString(post.content || "", "text/html");
+            const paragraphs = Array.from(doc.querySelectorAll("p"))
+              .map((p) => p.innerText.trim()) // Get the text content
+              .filter((text) => text.length > 0) // Remove empty paragraphs
+              .join(" "); // Concatenate with a space
+
             // Create the post element
             const postElement = document.createElement("div");
             postElement.innerHTML = `
               <a href="${postUrl}">
                 <div class="blog_box">
                   <div class="Image">
-                    <img class="icon" src="${post.icon || ''}" alt="${post.title || 'No Title'}" />
+                    <img class="icon" src="${post.icon || ""}" alt="${
+              post.title || "No Title"
+            }" />
                   </div>
                   <div class="details">
-                    <h1 class="blogTitle">${post.title || 'No Title'}</h1>
+                    <h1 class="blogTitle">${post.title || "No Title"}</h1>
                     <div class="tagboxes">
                       ${tagElements}
                     </div>
                     <p class="description">
-                      ${mergedContent}
+                      ${paragraphs}
                     </p>
                   </div>
                 </div>
               </a>`;
-            
+
             postsContainer.appendChild(postElement);
           });
-    
         } catch (error) {
-          console.error('Error loading posts:', error);
+          console.error("Error loading posts:", error);
         }
       });
     </script>
-    
-    
-</body>
-</html>
   </body>
 </html>
