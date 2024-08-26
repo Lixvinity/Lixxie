@@ -1,3 +1,4 @@
+/* Existing CSS for larger screens */
 body {
 	background-color: #202021;
 	height: 100%;
@@ -9,6 +10,10 @@ body {
 	font-family: "Courier Prime", monospace;
 	box-shadow: 0 0 2vh rgba(0, 0, 0, 0.5) inset;
 	line-height: 20px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 
 #Page {
@@ -116,4 +121,59 @@ body {
 .blog_image{
 	border-radius: 15px;
 	max-block-size: 700px;
+}
+
+/* Mobile-specific styles */
+@media only screen and (max-width: 768px) {
+    /* Override styles to prevent horizontal scrolling */
+    body {
+        padding: 0;
+        overflow-x: hidden; /* Prevent horizontal scroll */
+    }
+
+    .center {
+        width: 90%;
+        padding: 0 10px;
+        margin: 10px auto; /* Adjust margin for smaller screens */
+    }
+
+    .banner {
+        height: 25vh; /* Reduce banner height */
+    }
+
+    .navbar ul {
+        flex-direction: column; /* Stack navbar items vertically */
+    }
+
+    .navbar li {
+        float: none; /* Remove float */
+        width: 100%; /* Full-width for mobile */
+    }
+
+    .navbar a {
+        padding: 10px;
+        font-size: 15px; /* Adjust font size for smaller screens */
+    }
+
+    .title {
+        font-size: 6vmin; /* Adjust title size */
+    }
+
+    #tags {
+        justify-content: center; /* Center tags on mobile */
+    }
+
+    .tag {
+        padding: 5px 10px;
+        border-radius: 2vw; /* Adjust border radius */
+    }
+
+    .Tag_Text {
+        font-size: 3.5vw; /* Adjust text size */
+    }
+
+    .blog_image {
+        max-width: 100%; /* Ensure images are responsive */
+        height: auto;
+    }
 }
