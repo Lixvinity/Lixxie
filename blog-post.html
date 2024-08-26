@@ -3,120 +3,97 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title id="page-title">Blog Post</title>
-
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Blog Post Title" id="og-title" />
-    <meta
-      property="og:description"
-      content="Description of the blog post."
-      id="og-description"
-    />
-    <meta
-      property="og:url"
-      content="https://lixxie.xyz/blog-post?post=post-id"
-      id="og-url"
-    />
-    <meta property="og:type" content="article" />
-    <meta
-      property="og:image"
-      content="https://lixxie.xyz/images/Icons/web_badge2.gif"
-      id="og-image"
-    />
-    <meta
-      property="og:image:alt"
-      content="Image description"
-      id="og-image-alt"
-    />
-
+    <title>Blog</title>
     <link rel="stylesheet" href="/css/blog-styles.css" />
-    <script src="/js/blog-post.js" defer></script>
   </head>
   <body>
-    <header>
-      <nav class="navbar">
-        <ul>
-          <div style="width: fit-content; margin: 0 auto">
+    <div id="Page">
+      <header>
+        <nav class="navbar">
+          <ul>
             <li><a href="index.html">[ Home ]</a></li>
             <li><a href="Projects.html">[ Projects ]</a></li>
             <li><a href="blog.html">[ Blog ]</a></li>
-          </div>
-        </ul>
-      </nav>
-    </header>
-    <main>
-      <div id="post-content"></div>
-    </main>
-    <footer></footer>
+          </ul>
+        </nav>
+        <div class="banner">
+          <img id="bannerImage" class="bannerimage" alt="Banner" />
+        </div>
+      </header>
+      <main class="center">
+        <h1 id="title" class="title"></h1>
+        <div id="tags"></div>
+        <div id="content"></div>
+      </main>
+    </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", async function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        const postId = urlParams.get("post");
-        const baseDomain = "https://lixxie.xyz"; // Update to your domain
-
+      async function loadContent() {
         try {
-          // Fetch the post data
-          const postResponse = await fetch(
-            `${baseDomain}/posts/${postId}.json`
+          // Get query parameters
+          const urlParams = new URLSearchParams(window.location.search);
+          const postId = urlParams.get("post"); // Assume post ID is provided as a query parameter
+
+          if (!postId) {
+            throw new Error("No post ID provided in query parameters.");
+          }
+
+          // Construct the GitHub Pages URL for the post JSON
+          const postFileUrl = `https://lixxie.xyz/posts/${postId}.json`;
+          console.log("Fetching post from:", postFileUrl); // Debugging URL
+
+          const postResponse = await fetch(postFileUrl);
+          if (!postResponse.ok) {
+            throw new Error(
+              `Post file ${postFileUrl} not found. Status: ${postResponse.status}`
+            );
+          }
+          const postData = await postResponse.json();
+
+          // Construct the GitHub Pages URL for the tags JSON
+          const tagsFileUrl = "https://lixxie.xyz/data/tags.json";
+          console.log("Fetching tags from:", tagsFileUrl); // Debugging URL
+
+          const tagsResponse = await fetch(tagsFileUrl);
+          if (!tagsResponse.ok) {
+            throw new Error(
+              `Tags file ${tagsFileUrl} not found. Status: ${tagsResponse.status}`
+            );
+          }
+          const tagsData = await tagsResponse.json();
+
+          // Convert tags data to a map for quick lookup
+          const tagsMap = new Map(
+            tagsData.map((tag) => [tag.tag_name, tag.icon])
           );
-          const post = await postResponse.json();
 
-          // Update the page title
-          document.getElementById("page-title").innerText =
-            post.title || "No Title";
+          // Update HTML with data from the post JSON
+          document.getElementById("bannerImage").src =
+            postData.bannerImage || "";
+          document.getElementById("title").textContent = postData.title || "";
+          document.getElementById("content").innerHTML = postData.content || "";
 
-          // Update Open Graph meta tags
-          document
-            .getElementById("og-title")
-            .setAttribute("content", post.title || "No Title");
-          document
-            .getElementById("og-description")
-            .setAttribute(
-              "content",
-              (post.content || "").substring(0, 150) + "..."
-            );
-          document
-            .getElementById("og-url")
-            .setAttribute(
-              "content",
-              `${baseDomain}/blog-post?post=${encodeURIComponent(postId)}`
-            );
-          document
-            .getElementById("og-image")
-            .setAttribute("content", post.bannerImage || "default-image.jpg");
-          document
-            .getElementById("og-image-alt")
-            .setAttribute("content", post.title || "No Title");
-
-          // Render the post content
-          const postContent = `
-                    <div class="post-header">
-                        <img src="${
-                          post.bannerImage
-                        }" alt="Banner Image" class="banner-image" />
-                        <h1>${post.title || "No Title"}</h1>
-                        <p>Date: ${post.date || "No Date"}</p>
-                    </div>
-                    <div class="post-body">
-                        ${post.content || "Content not available."}
-                    </div>
-                    <div class="tags">
-                        ${
-                          post.tags
-                            ? post.tags
-                                .map((tag) => `<span class="tag">${tag}</span>`)
-                                .join("")
-                            : ""
-                        }
-                    </div>
-                `;
-
-          document.getElementById("post-content").innerHTML = postContent;
+          // Update tags section
+          const tagsContainer = document.getElementById("tags");
+          tagsContainer.innerHTML = "";
+          if (postData.tags) {
+            postData.tags.forEach((tagName) => {
+              const icon = tagsMap.get(tagName);
+              if (icon) {
+                const tagDiv = document.createElement("div");
+                tagDiv.classList.add("tag");
+                tagDiv.innerHTML = `<img src="${icon}" class="tag-icon" alt="${tagName} Icon"> <span class="Tag_Text">${tagName}</span>`;
+                tagsContainer.appendChild(tagDiv);
+              }
+            });
+          }
         } catch (error) {
-          console.error("Error loading post:", error);
+          console.error("Error loading content:", error);
         }
-      });
+      }
+
+      // Load content when the page is loaded
+      window.onload = loadContent;
     </script>
   </body>
 </html>
