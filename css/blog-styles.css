@@ -112,3 +112,8 @@ body {
   width: 15px;
   height: 15px;
 }
+
+.blog_image{
+	border-radius: 15px;
+	max-block-size: 700px;
+}
