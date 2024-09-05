@@ -120,7 +120,7 @@ body {
 
 .blog_image{
 	border-radius: 15px;
-	max-block-size: 700px;
+	max-block-size: 500px;
 }
 
 /* Mobile-specific styles */
