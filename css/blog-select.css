@@ -162,13 +162,13 @@ a {
 }
 
 .tag {
-  background-color: #2b2b32;
-  display: flex;
-  align-items: center;
-  padding: 5px 11px;
-  border-radius: 10px;
-  transition: background-color 0.3s;
-  margin-right: 3px;
+	background-color: #2b2b32;
+	display: flex;
+	align-items: center;
+	padding: 5px 8px;
+	border-radius: 10px;
+	transition: background-color 0.3s;
+	margin-right: 3px;
 }
 
 .tagtext {
