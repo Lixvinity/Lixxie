@@ -10,5 +10,5 @@
   { "tag_name": "Unreal Engine", "icon": "/images/Icons/UE-Icon-2023-White.svg" },
   { "tag_name": "Programming", "icon": "/images/Icons/code.svg" },
   { "tag_name": "3D Art", "icon": "https://svgl.app/library/blender.svg" },
-  { "tag_name": "Digital Art", "icon": "/Icons/open-source-fill-svgrepo-com.svg" }
+  { "tag_name": "Digital Art", "icon": "/images/Icons/open-source-fill-svgrepo-com.svg" }
 ]
